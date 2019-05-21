@@ -1,0 +1,129 @@
+<div class="loading">
+  <mat-progress-bar *ngIf="loading" color="warn"></mat-progress-bar>
+</div>
+
+<div class="grid-container">
+  <mat-toolbar color="accent" style="top: 60px; position: sticky; z-index: 100;">
+    <h2>Evaluación Neuropsicológica (NEUROPSI)</h2>
+    <span class="spacer"></span>
+    <h3>Hoy: {{today | date}}</h3>
+  </mat-toolbar>
+  <div *ngIf="test" class="container mat-elevation-z8" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+    <div class="item" fxFlex="90%" fxFlex.xs="98%" fxFlex.md="96%">
+      <mat-toolbar>
+        <span>{{test.description}}</span>
+        <span class="spacer"></span>
+        <h2>{{name}} </h2>
+      </mat-toolbar>
+
+      <mat-vertical-stepper linear="true" #stepper>
+        <mat-step *ngFor="let section of test.sections; let i=index;" [completed]="steps[i]">
+          <ng-template matStepLabel>{{section.name}}</ng-template>
+
+          <ul class="list">
+            <li *ngFor="let exercise of section.exercises; let g=index;">
+              <div [ngSwitch]="exercise?.code">
+
+                <app-semeat-a0 *ngSwitchCase="'A0'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
+                <app-semeat-a1 *ngSwitchCase="'A1'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
+
+                <app-semeat-a2 *ngSwitchCase="'A2'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a2>
+                <app-semeat-a3 *ngSwitchCase="'A3'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a3>
+                <app-semeat-a4 *ngSwitchCase="'A4'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a4>
+
+                <app-semeat-a5 *ngSwitchCase="'A5'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a5>
+
+                <div *ngSwitchDefault>
+                  <h4 class="mat-h4">No se encuentra el ejercicio presione el botón.</h4>
+                  <button mat-raised-button type="button" color="accent" (click)="nextStepper(i, g, section.exercises.length)" matStepperNext>
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+              <br />
+              <mat-divider></mat-divider>
+              <br />
+            </li>
+          </ul>
+
+          <div class="steper-next" [hidden]="!steps[i]">
+            <button mat-raised-button type="button" color="primary" [disabled]="!steps[i]" matStepperNext>
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+          </div>
+
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Cuestionario</ng-template>
+
+          <div [ngSwitch]="level.toString()">
+
+              <h3 *ngSwitchCase="0">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="1">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="2">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="3">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="4">
+                  Se le recomienda realizar ejercicios de atención sostenida en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="5">
+                  Se le recomienda realizar ejercicios de atención sostenida en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="6">
+                  Se le recomienda realizar ejercicios de atención sostenida en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="7">
+                  Se le recomienda realizar ejercicios de atención selectiva en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="8">
+                  Se le recomienda realizar ejercicios de atención selectiva en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="9">
+                  Se le recomienda realizar ejercicios de atención selectiva en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="10">
+                  Se le recomienda realizar ejercicios de atención alternada en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="11">
+                  Se le recomienda realizar ejercicios de atención alternada en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="12">
+                  Se le recomienda realizar ejercicios de atención alternada en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="13">
+                  Se le recomienda realizar ejercicios de atención dividida en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="14">
+                  Se le recomienda realizar ejercicios de atención dividida en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="15">
+                  <span>Puntuación Perfecta.</span>
+                  Se le recomienda realizar ejercicios de atención dividida en nivel avanzado
+              </h3>
+          </div>
+
+          <div *ngIf="testData">
+            <h4 class="mat-h4">Usted a terminado el cuestionario Inicial. Para hacer permanentes los cambios presione el botón Guardar Cuestionario</h4>
+          </div>
+
+          <div>
+            <button mat-raised-button color="primary" [disabled]="flagFinishTest" (click)="saveTest()">
+              <mat-icon>done</mat-icon>
+              <span>Guardar Cuestionario</span>
+            </button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+
+    </div>
+  </div>
+
+</div>

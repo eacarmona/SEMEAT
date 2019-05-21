@@ -1,0 +1,83 @@
+<div class="loading">
+  <mat-progress-bar *ngIf="loading" color="warn"></mat-progress-bar>
+</div>
+
+<div *ngIf="!test" class="grid-container">
+  <h2 class="mat-h2">Cuestionario no encontrado</h2>
+</div>
+
+<div *ngIf="test" class="grid-container">
+  <mat-toolbar color="accent" style="top: 60px; position: sticky; z-index: 100;">
+    <h2>Cuestionario de "Atención {{test.type}}"</h2>
+    <span class="spacer"></span>
+    <h3>Hoy: {{today | date}}</h3>
+  </mat-toolbar>
+  <div class="container mat-elevation-z8" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+    <div class="item" fxFlex="90%" fxFlex.xs="98%" fxFlex.md="96%">
+      <mat-toolbar>
+        <span>{{test.description}}</span>
+        <span class="spacer"></span>
+        <h2>{{user.firstname}} </h2>
+      </mat-toolbar>
+
+      <mat-vertical-stepper linear="true" #stepper>
+        <mat-step *ngFor="let section of test.sections; let i=index;" [completed]="steps[i]">
+          <ng-template matStepLabel>{{section.name}}</ng-template>
+
+          <ul class="list">
+            <li *ngFor="let exercise of section.exercises; let g=index;">
+              <div [ngSwitch]="exercise?.code">
+
+                <app-semeat-a6 *ngSwitchCase="'A6'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a6>
+                <app-semeat-a7 *ngSwitchCase="'A7'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a7>
+
+                <app-semeat-ab *ngSwitchCase="'A8'" [question]="'arrow_forward'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-ab>
+                <app-semeat-ab *ngSwitchCase="'A9'" [question]="'arrow_back'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-ab>
+                <app-semeat-ab *ngSwitchCase="'B1'" [question]="'arrow_downward'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-ab>
+                <app-semeat-ab *ngSwitchCase="'B2'" [question]="'arrow_upward'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-ab>
+
+                <div *ngSwitchDefault>
+                  <h4 class="mat-h4">No se encuentra el ejercicio presione el botón</h4>
+                  <button mat-raised-button type="button" color="accent" (click)="nextStepper(i, g, section.exercises.length)" matStepperNext>
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                </div>
+
+              </div>
+              <br />
+              <mat-divider></mat-divider>
+              <br />
+            </li>
+          </ul>
+
+          <div class="steper-next" [hidden]="!steps[i]">
+            <button mat-raised-button type="button" color="primary" [disabled]="!steps[i]" matStepperNext>
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+          </div>
+
+        </mat-step>
+
+        <mat-step>
+
+          <div *ngIf="testData">
+            <h4 class="mat-h4">Usted a terminado el cuestionario de atención {{test.type}}. Para hacer permanentes los cambios presione el botón Guardar Cuestionario</h4>
+          </div>
+
+          <div>
+            <button mat-raised-button color="primary" [disabled]="flagFinishTest" (click)="saveTest()">
+              <mat-icon>done</mat-icon>
+              <span>Guardar Cuestionario</span>
+            </button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+
+    </div>
+  </div>
+
+</div>

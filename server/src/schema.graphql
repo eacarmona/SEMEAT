@@ -1,0 +1,267 @@
+# import Node, DateTime, BatchPayload from "./generated/prisma.graphql"
+
+# import UserCreateInput, UserUpdateInput, UserWhereUniqueInput, UserWhereInput, UserOrderByInput, UserConnection, UserSubscriptionPayload from "./generated/prisma.graphql"
+# import Role, RoleCreateInput, RoleUpdateInput, RoleWhereUniqueInput, RoleConnection ,RoleSubscriptionPayload from "./generated/prisma.graphql"
+# import File, FileCreateInput, FileUpdateInput, FileWhereUniqueInput, FileConnection, FileSubscriptionPayload from "./generated/prisma.graphql"
+
+# import Test, TestCreateInput, TestUpdateInput, TestWhereUniqueInput, TestConnection, TestSubscriptionPayload from "./generated/prisma.graphql"
+# import Section, SectionCreateInput, SectionUpdateInput, SectionWhereUniqueInput, SectionConnection, SectionSubscriptionPayload from "./generated/prisma.graphql"
+# import Exercise, ExerciseCreateInput, ExerciseUpdateInput, ExerciseWhereUniqueInput, ExerciseConnection, ExerciseSubscriptionPayload from "./generated/prisma.graphql"
+
+# import TestData, TestDataCreateInput, TestDataUpdateInput, TestDataWhereUniqueInput, TestDataConnection, TestDataSubscriptionPayload from "./generated/prisma.graphql"
+# import ExerciseData, ExerciseDataCreateInput, ExerciseDataUpdateInput, ExerciseDataWhereUniqueInput, ExerciseDataConnection, ExerciseDataSubscriptionPayload from "./generated/prisma.graphql"
+
+scalar Upload
+scalar JSON
+scalar Date
+
+type User implements Node {
+  id: ID!
+  email: String!
+  firstname: String!
+  lastname: String!
+  birthdate: Date!
+  sex: String!
+  roles: [Role!]!
+}
+
+input UserSignupInput {
+  email: String!
+  password: String!
+  firstname: String!
+  lastname: String!
+  birthdate: Date!
+  sex: String!
+}
+
+input UserProfileInput {
+  email: String!
+  firstname: String!
+  lastname: String!
+  birthdate: Date!
+  sex: String!
+}
+
+input UserChangePasswordInput {
+  oldPassword: String!
+  newPassword: String!
+}
+
+type Query {
+  me: User!
+  user(id: String!): User!
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [User!]!
+  usersConnection(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): UserConnection!
+  role(id: String!): Role!
+  roles(
+    where: RoleWhereInput
+    orderBy: RoleOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Role!]!
+  rolesConnection(
+    where: RoleWhereInput
+    orderBy: RoleOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): RoleConnection!
+  file(id: String!): File!
+  files(
+    where: FileWhereInput
+    orderBy: FileOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [File!]!
+  filesConnection(
+    where: FileWhereInput
+    orderBy: FileOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): FileConnection!
+
+  test(id: String!): Test!
+  tests(
+    where: TestWhereInput
+    orderBy: TestOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Test!]!
+  testsConnection(
+    where: TestWhereInput
+    orderBy: TestOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TestConnection!
+
+  section(id: String!): Section!
+  sections(
+    where: SectionWhereInput
+    orderBy: SectionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Section!]!
+  sectionsConnection(
+    where: SectionWhereInput
+    orderBy: SectionOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): SectionConnection!
+
+  exercise(id: String!): Exercise!
+  exercises(
+    where: ExerciseWhereInput
+    orderBy: ExerciseOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Exercise!]!
+  exercisesConnection(
+    where: ExerciseWhereInput
+    orderBy: ExerciseOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): ExerciseConnection!
+
+  testData(id: String!): TestData!
+  testDatas(
+    where: TestDataWhereInput
+    orderBy: TestDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [TestData!]!
+  testDataConnection(
+    where: TestDataWhereInput
+    orderBy: TestDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TestDataConnection!
+
+  exerciseData(id: String!): ExerciseData!
+  exerciseDatas(
+    where: ExerciseDataWhereInput
+    orderBy: ExerciseDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [ExerciseData!]!
+  exerciseDataConnection(
+    where: ExerciseDataWhereInput
+    orderBy: ExerciseDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): ExerciseDataConnection!
+}
+
+type Mutation {
+  signup(data: UserSignupInput!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  profile(data: UserProfileInput!): AuthPayload!
+  changePassword(data: UserChangePasswordInput!): User!
+
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+
+  createRole(data: RoleCreateInput!): Role!
+  updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role!
+  deleteRole(where: RoleWhereUniqueInput!): Role
+  deleteManyRoles(where: RoleWhereInput): BatchPayload!
+
+  uploadFile(file: Upload!): File!
+  uploadFiles(files: [Upload!]!): [File!]!
+  changeFile(file: Upload!, where: FileWhereUniqueInput!): File!
+  deleteFile(where: FileWhereUniqueInput!): File
+  deleteManyFiles(where: FileWhereInput): BatchPayload!
+
+  createTest(data: TestCreateInput!): Test!
+  updateTest(data: TestUpdateInput!, where: TestWhereUniqueInput!): Test!
+  deleteTest(where: TestWhereUniqueInput!): Test
+  deleteManyTests(where: TestWhereInput): BatchPayload!
+
+  createSection(data: SectionCreateInput!): Section!
+  updateSection(data: SectionUpdateInput!, where: SectionWhereUniqueInput!): Section!
+  deleteSection(where: SectionWhereUniqueInput!): Section
+  deleteManySections(where: SectionWhereInput): BatchPayload!
+
+  createExercise(data: ExerciseCreateInput!): Exercise!
+  updateExercise(data: ExerciseUpdateInput!, where: ExerciseWhereUniqueInput!): Exercise!
+  deleteExercise(where: ExerciseWhereUniqueInput!): Exercise
+  deleteManyExercises(where: ExerciseWhereInput): BatchPayload!
+
+  createTestData(data: TestDataCreateInput!): TestData!
+  updateTestData(data: TestDataUpdateInput!, where: TestDataWhereUniqueInput!): TestData!
+  deleteTestData(where: TestDataWhereUniqueInput!): TestData
+  deleteManyTestDatas(where: TestDataWhereInput): BatchPayload!
+
+  createExerciseData(data: ExerciseDataCreateInput!): ExerciseData!
+  updateExerciseData(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereUniqueInput!): ExerciseData!
+  deleteExerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
+  deleteManyExerciseDatas(where: ExerciseDataWhereInput): BatchPayload!
+  
+}
+
+type Subscription {
+  userSubscription: UserSubscriptionPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}

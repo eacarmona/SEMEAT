@@ -1,0 +1,158 @@
+mutation {
+  createUser(
+    data: {
+      email: "admin@gmail.com"
+      password: "$2a$10$hACwQ5/HQI6FhbIISOUVeusy3sKyUDhSq36fF5d/54aAdiygJPFzm" # plaintext password: "nooneknows"
+      firstname: "ADMIN"
+      lastname: "Admin user"
+      sex: MALE
+      birthdate: "1988-09-19"
+      roles: { 
+        create:  [
+          {
+            name: "Administrador",
+            description: "Administrador ROL"
+          },
+          { 
+            name: "Visitante", 
+            description: "Visitante ROL"
+          },
+          { 
+            name: "Especialista", 
+            description: "Especialista ROL" 
+          },
+          { 
+            name: "Estudiante", 
+            description: "Estudiante ROL" 
+          }
+        ]
+      }
+    }
+  ) {
+    id
+  }
+
+  create_TI: createTest(data: {
+    type: INICIAL
+    description: "Cuestionario Inicial por defecto"
+    enable: true
+    sections: {
+      create: [
+        {
+          name: "Datos Generales y Antecedentes Médicos"
+          description: "En esta sección se ingresarán los datos generales y los antecedentes médicos."
+          exercises: {
+            create: [
+              {
+                code: A0
+                description: "Datos Generales y Antecedentes Médicos"
+              }
+            ]
+          }
+        },
+        {
+          name: "Orientación"
+          description: "En esta sección se ingresarán preguntas de orientación."
+          exercises: {
+            create: [
+              {
+                code: A1
+                description: "Ejercicios de Orientación"
+                scale: 15
+              }
+            ]
+          }
+        },
+        {
+          name: "Atención y Concentración"
+          description:  "En esta sección se mostrarán una serie de ejercicios para evaluar la atención y concentración."
+          exercises: {
+            create: [
+              {
+                code: A2
+                description: "Dígitos en regresión"
+                scale: 15
+              },
+              {
+                code: A3
+                description: "Detención visual"
+                scale: 15
+              },
+              {
+                code: A4
+                description: "20-3"
+                scale: 15
+              }
+            ]
+          }
+        },
+        {
+          name: "Codificación"
+          description:  "En esta sección se mostrarán una serie de ejercicios para evaluar la Codificación."
+          exercises: {
+            create: [
+              {
+                code: A5
+                description: "Memoria verbal espontánea"
+                scale: 15
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }) {
+    id
+  }
+
+  create_E1: createExercise(data: {
+    code: A6
+    description: "Detección de números grandes y chicos"
+    level: SELECTIVA
+    scale: 15
+  }) {
+    id
+  }
+
+  create_E2: createExercise(data: {
+    code: A7
+    description: "Rastreo Flechas"
+    level: SOSTENIDA
+    scale: 15
+  }) {
+    id
+  }
+
+  create_E3: createExercise(data: {
+    code: A8
+    description: "Direccionalidad Derecha"
+    level: ENFOCADA
+    scale: 15
+  }) {
+    id
+  }
+  create_E4: createExercise(data: {
+    code: A9
+    description: "Direccionalidad Izquierda"
+    level: ENFOCADA
+    scale: 15
+  }) {
+    id
+  }
+  create_E5: createExercise(data: {
+    code: B1
+    description: "Direccionalidad Abajo"
+    level: ENFOCADA
+    scale: 15
+  }) {
+    id
+  }
+  create_E6: createExercise(data: {
+    code: B2
+    description: "Direccionalidad Arriba"
+    level: ENFOCADA
+    scale: 15
+  }) {
+    id
+  }
+}
